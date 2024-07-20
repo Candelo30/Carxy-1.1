@@ -1,0 +1,45 @@
+<div class="contaiener_1">
+  <div class="bg_wrapper"></div>
+  <div class="main">
+    <span>Bienvenido a</span>
+    <div class="container-img">
+      <img src="assets/Logo__main.png" alt="Logo Carxy" class="main-img" />
+    </div>
+  </div>
+</div>
+<div class="container_2">
+  <div class="container">
+    <div class="container_3">
+      <span>Iniciar Sesión</span>
+    </div>
+    <form action="" (ngSubmit)="onSubmit()" #loginForm="ngForm" method="post">
+      <div class="group-input">
+        <label for="username">Nombre de usuario</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          [(ngModel)]="username"
+          required
+          placeholder="Ingresa tu usuario"
+        />
+      </div>
+      <div class="group-input">
+        <label for="password">Contraseña</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          [(ngModel)]="password"
+          required
+          placeholder="Ingresa tu contraseña"
+        />
+      </div>
+
+      <div class="container-button">
+        <button type="submit" class="button btn-1">Entrar</button>
+        <a routerLink="/register" class="button btn-2">Regístrate</a>
+      </div>
+    </form>
+  </div>
+</div>

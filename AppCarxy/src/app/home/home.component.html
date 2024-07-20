@@ -1,0 +1,91 @@
+<app-sidenav> </app-sidenav>
+
+<header class="header">
+  <div class="header-part__1">
+    <img src="assets/iconCarxy.ico" alt="logo" class="banner-icon" />
+    <div class="header-part-1__icon">
+      <i class="fa-solid fa-home"></i>
+    </div>
+    <div class="header-part-1__title">
+      <span>Inicio</span>
+    </div>
+  </div>
+  <div class="header-part__2">
+    <img [src]="this.avatarUsuario" class="avatarUser" alt="" />
+    <small>{{ nombreUsuario }}</small>
+    <button (click)="ShowElements()" class="list-link">
+      <i class="fa-solid fa-chevron-down"></i>
+    </button>
+
+    @if (ModalIsOpen === true) {
+    <div class="elementsView">
+      <ul>
+        <li>Configuración</li>
+        <li>Ayuda</li>
+        <li routerLink="/login" (click)="logout()">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          Cerrar Sesión
+        </li>
+      </ul>
+    </div>
+    }
+  </div>
+</header>
+
+<main>
+  <div class="welcome">
+    <h1>{{ getSaludo() }}</h1>
+    <p>Bienvenido {{ nombreUsuario }}</p>
+  </div>
+  <div class="container-box">
+    @for (items of allData; track items.id) {
+    <div class="box">
+      <div class="box-info">
+        <p>
+          <b>{{ items.nombre_usuario }} </b>
+          <small> {{ items.fecha_publicacion }} </small>
+        </p>
+      </div>
+      <p>{{ items.descripcion }}</p>
+      <div class="container-img">
+        <img [src]="items.image" alt=" " />
+      </div>
+
+      <div class="container-social-icons">
+        <nav class="nav-social">
+          <ul class="menu-social">
+            <li class="social-item">
+              <button class="menu-buttons__contents">
+                <i class="fa-regular fa-thumbs-up social-icon"></i>
+                {{ items.me_gusta }}
+              </button>
+            </li>
+            <li class="social-item">
+              <button class="menu-buttons__contents">
+                <i class="fa-regular fa-thumbs-down social-icon"></i>
+                {{ items.no_megusta }}
+              </button>
+            </li>
+            <li class="social-item">
+              <button class="menu-buttons__contents">
+                <i class="fa-regular fa-message social-icon"></i>
+                {{ items.comentarios }}
+              </button>
+            </li>
+            <li class="social-item">
+              <button class="menu-buttons__contents">
+                <i class="fa-regular fa-share-from-square social-icon"></i>
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="container-chats"></div>
+    </div>
+
+    } @empty {
+    <p>Por favor añade elementos al inicio</p>
+    }
+  </div>
+</main>

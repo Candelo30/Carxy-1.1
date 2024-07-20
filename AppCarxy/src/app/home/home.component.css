@@ -1,0 +1,263 @@
+* {
+  box-sizing: border-box;
+  scrollbar-width: thin; /* Puedes usar auto, thin o none */
+}
+
+.avatarUser {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+
+.elementsView {
+  display: flex;
+  gap: 10px;
+  padding: 3px;
+  width: 200px;
+  position: absolute;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--purple-heart-300);
+
+  top: 100%;
+  right: 30px;
+
+  transition: all ease 300ms;
+}
+
+.elementsView ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.elementsView ul li {
+  cursor: pointer;
+  width: 170px;
+  border: 1px solid var(--purple-heart-300);
+  border-radius: 20px;
+  padding: 5px;
+}
+
+.elementsView ul li:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.list-icon {
+  font-size: 20px;
+}
+
+.list-link {
+  color: var(--purple-heart-400);
+}
+
+.list-link.active {
+  color: var(--purple-heart-700);
+}
+
+.list-link:hover {
+  color: var(--purple-heart-500);
+}
+
+.header-part__2 > button {
+  background-color: transparent;
+  border: none;
+}
+
+.welcome {
+  width: 100%;
+  text-align: left;
+}
+
+app-sidenav {
+  grid-column: 1;
+  grid-row: 1 / 13;
+}
+
+@media only screen and (max-width: 680px) {
+  app-sidenav {
+    grid-column: 1 / 13;
+    grid-row: 13;
+    display: flex;
+  }
+}
+
+header {
+  padding: 10px;
+  border-bottom: 2px solid var(--purple-heart-400);
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  grid-column: 2 / 13;
+  grid-row: 1;
+}
+
+@media only screen and (max-width: 680px) {
+  header {
+    grid-column: 1 / 13;
+    grid-row: 1;
+    display: flex;
+  }
+}
+
+.banner-icon {
+  display: none;
+}
+
+@media only screen and (max-width: 680px) {
+  .banner-icon {
+    display: block;
+    width: 25px;
+    height: 25px;
+  }
+}
+
+.header-part__1 {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Parte 2 - Header */
+
+.header-part__2 {
+  display: flex;
+
+  gap: 15px;
+  margin-right: 10px;
+  align-items: center;
+  align-content: center;
+}
+
+/* .NewCarBtn {
+  display: flex;
+  justify-content: space-between;
+  background-color: transparent;
+  border: 1px solid var(--purple-heart-400);
+  align-items: center;
+  border-radius: 20px;
+  width: 170px;
+  padding: 10px;
+
+  font-size: 1em;
+}
+
+.NewCarBtn:hover {
+  background-color: var(--purple-heart-300);
+  border: 1px solid black;
+} */
+
+main {
+  grid-column: 2 / 13;
+  grid-row: 2 / 13;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+}
+
+.container-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  overflow: auto;
+}
+
+.box {
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  transition: transform 0.2s;
+}
+
+.box:hover {
+  transform: translateY(-5px);
+}
+
+.box-info p {
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.box-info b {
+  font-size: 1.1em;
+  color: var(--purple-heart-500);
+}
+
+.box-info small {
+  color: var(--purple-heart-400);
+  font-size: 0.9em;
+}
+
+p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.container-img {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.container-img img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.container-social-icons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.nav-social {
+  display: flex;
+  align-items: center;
+}
+
+.menu-social {
+  list-style: none;
+  display: flex;
+  gap: 10px;
+  padding: 0;
+  margin: 0;
+}
+
+.social-item {
+  margin: 0;
+}
+
+.menu-buttons__contents {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.menu-buttons__contents:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.social-icon {
+  font-size: 1.2em;
+  color: #555;
+}
+
+.social-icon:hover {
+  color: var(--purple-heart-600);
+}
