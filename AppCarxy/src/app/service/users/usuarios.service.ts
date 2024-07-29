@@ -8,27 +8,44 @@ import { Observable } from 'rxjs';
 export class UsuariosService {
   constructor(private http: HttpClient) {}
 
-  userExisting = '';
+  idUSer = 0;
+  Username = '';
   nameUser = '';
-  lastNameUser = '';
+  middleNameUser = '';
+  FirstSurname = '';
+  SecondSurname = '';
+  EmailUSer = '';
+  PassWordUSer = '';
 
-  APIUrl = 'http://localhost:3002';
+  APIUrl = 'http://127.0.0.1:8000';
   getData(endpoint: String): Observable<any> {
-    return this.http.get(`${this.APIUrl}/${endpoint}`);
+    return this.http.get(`${this.APIUrl}/${endpoint}/`);
   }
 
-  getUserExisting(username: string, nameUser: string, lastName: string) {
-    this.userExisting = username;
+  getUserExisting(
+    idUSer: number,
+    Username: string,
+    nameUser: string,
+    middleNameUser: string,
+    FirstSurname: string,
+    SecondSurname: string,
+    EmailUSer: string,
+    PassWordUSer: string
+  ) {
+    this.idUSer = idUSer;
+    this.Username = Username;
     this.nameUser = nameUser;
-    this.lastNameUser = lastName;
+    this.middleNameUser = middleNameUser;
+    this.FirstSurname = FirstSurname;
+    this.SecondSurname = SecondSurname;
   }
 
   addUser(endpoint: String, data: any): Observable<any> {
-    return this.http.post(`${this.APIUrl}/${endpoint}`, data);
+    return this.http.post(`${this.APIUrl}/${endpoint}/`, data);
   }
 
   logout(user: string) {
     user = '';
-    this.userExisting = user;
+    this.Username = user;
   }
 }

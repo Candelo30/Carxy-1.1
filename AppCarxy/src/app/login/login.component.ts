@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
   }
 
   getData() {
-    this.UserService.getData('usuarios').subscribe((data) => {
+    this.UserService.getData('api/usuario').subscribe((data) => {
       this.allData = data;
     });
   }
@@ -39,9 +39,14 @@ export class LoginComponent implements OnInit {
 
       this.router.navigate(['/home']);
       this.UserService.getUserExisting(
+        user.id,
         user.nombre_usuario,
         user.primer_nombre,
-        user.primero_apellido
+        user.segundo_nombre,
+        user.primero_apellido,
+        user.segundo_apellido,
+        user.correo,
+        user.contrasena
       );
     } else {
       alert('Sus datos son incorrectos');

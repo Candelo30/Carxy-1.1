@@ -2,7 +2,7 @@
 
 <header class="header">
   <div class="header-part__1">
-    <img src="assets/iconCarxy.ico" alt="logo" class="banner-icon" />
+    <img src="/assets/iconCarxy.ico" alt="logo" class="banner-icon" />
     <div class="header-part-1__icon">
       <i class="fa-solid fa-home"></i>
     </div>
@@ -20,6 +20,10 @@
     @if (ModalIsOpen === true) {
     <div class="elementsView">
       <ul>
+        <li routerLink="/profile">
+          <i class="fa-solid fa-user"></i>
+          Perfil
+        </li>
         <li>Configuración</li>
         <li>Ayuda</li>
         <li routerLink="/login" (click)="logout()">
@@ -37,18 +41,29 @@
     <h1>{{ getSaludo() }}</h1>
     <p>Bienvenido {{ nombreUsuario }}</p>
   </div>
+  <button (click)="sortByDate()">Recientes</button>
   <div class="container-box">
     @for (items of allData; track items.id) {
     <div class="box">
       <div class="box-info">
         <p>
-          <b>{{ items.nombre_usuario }} </b>
-          <small> {{ items.fecha_publicacion }} </small>
+          <b>{{ items.nombre_usuario_display }} </b>
+          <small> {{ getFormattedDate(items.fecha_publicacion) }} </small>
         </p>
       </div>
+      @if (editIndex !== items.id) {
       <p>{{ items.descripcion }}</p>
+      } @else {
+      <input
+        type="text"
+        name=""
+        id=""
+        [(ngModel)]="descriptionPublication.descripcion"
+      />
+      <!-- <button (click)="UpdatePublication(items.id)">Enviar</button> -->
+      }
       <div class="container-img">
-        <img [src]="items.image" alt=" " />
+        <img [src]="items.imagen" alt=" " />
       </div>
 
       <div class="container-social-icons">
@@ -77,6 +92,8 @@
                 <i class="fa-regular fa-share-from-square social-icon"></i>
               </button>
             </li>
+            <!-- <button (click)="DeletePublication(items.id)">Eliminar</button>
+            <button (click)="BtnIsOpenEditing(items.id)">Editar</button> -->
           </ul>
         </nav>
       </div>

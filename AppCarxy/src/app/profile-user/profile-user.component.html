@@ -1,1 +1,160 @@
-<p>profile-user works!</p>
+<app-sidenav> </app-sidenav>
+
+<header class="header">
+  <div class="header-part__1">
+    <img src="/assets/iconCarxy.ico" alt="logo" class="banner-icon" />
+    <div class="header-part-1__icon">
+      <i class="fa-solid fa-home"></i>
+    </div>
+    <div class="header-part-1__title">
+      <span>Perfil</span>
+    </div>
+  </div>
+  <div class="header-part__2">
+    <img [src]="this.avatarUsuario" class="avatarUser" alt="" />
+    <small>{{ nombreUsuario }}</small>
+    <button (click)="ShowElements()" class="list-link">
+      <i class="fa-solid fa-chevron-down"></i>
+    </button>
+
+    @if (ModalIsOpen === true) {
+    <div class="elementsView">
+      <ul>
+        <li routerLink="/profile">
+          <i class="fa-solid fa-user"></i>
+          Perfil
+        </li>
+        <li>Configuración</li>
+        <li>Ayuda</li>
+        <li routerLink="/login" (click)="logout()">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          Cerrar Sesión
+        </li>
+      </ul>
+    </div>
+    }
+  </div>
+</header>
+<main>
+  <div class="content">
+    <div class="wrapper">
+      <div class="container_img">
+        <img [src]="this.avatarUsuario" class="avatarUser" alt="" />
+      </div>
+    </div>
+
+    <div class="info_user">
+      <b>
+        {{ nameUser }}
+        {{ middleNameUser }}
+        {{ FirstSurname }}
+        {{ SecondSurname }}
+      </b>
+      ({{ nombreUsuario }})
+    </div>
+    <div class="post-container">
+      <p>Crea una nueva publicación</p>
+      <div class="post-input">
+        <img [src]="this.avatarUsuario" class="avatarUser" alt="" />
+        <input
+          type="text"
+          placeholder="{{ nameUser }}, ¿Qué estás pensando?"
+          class="input-field"
+          [(ngModel)]="this.descripcion"
+        />
+      </div>
+      <div class="post-actions">
+        <button
+          class="action-btn"
+          (click)="BtnOpenCreateNewPublication()"
+          disabled
+        >
+          <i class="fa-regular fa-images"></i> Foto
+        </button>
+      </div>
+      @if (OpenCreateNewPublication == true) {
+      <input
+        type="file"
+        (change)="onFileSelected($event)"
+        accept="image/*"
+        class="file-input"
+      />
+      @if (previewUrl) {
+      <div class="image-preview">
+        <img [src]="previewUrl" alt="Vista previa de la imagen" />
+      </div>
+
+      } }
+      <button class="action-btn" (click)="submitPublication()">
+        Enviar
+        <i class="fa-regular fa-send"></i>
+      </button>
+    </div>
+
+    <div class="container-box">
+      @for (items of allData; track items.id) {
+      <div class="box">
+        <div class="box-info">
+          <p>
+            <b>{{ items.nombre_usuario_display }} </b>
+            <small> {{ getFormattedDate(items.fecha_publicacion) }} </small>
+          </p>
+        </div>
+        <!-- @if (editIndex !== items.id) { -->
+        <p>{{ items.descripcion }}</p>
+        <!-- 
+        } @else {
+        <input
+          type="text"
+          name=""
+          id=""
+          [(ngModel)]="descriptionPublication.descripcion"
+        /> 
+        !- <button (click)="UpdatePublication(items.id)">Enviar</button> 
+        } -->
+
+        <div class="container-img">
+          <img [src]="items.imagen" alt=" " />
+        </div>
+
+        <div class="container-social-icons">
+          <nav class="nav-social">
+            <ul class="menu-social">
+              <li class="social-item">
+                <button class="menu-buttons__contents">
+                  <i class="fa-regular fa-thumbs-up social-icon"></i>
+                  {{ items.me_gusta }}
+                </button>
+              </li>
+              <li class="social-item">
+                <button class="menu-buttons__contents">
+                  <i class="fa-regular fa-thumbs-down social-icon"></i>
+                  {{ items.no_megusta }}
+                </button>
+              </li>
+              <li class="social-item">
+                <button class="menu-buttons__contents">
+                  <i class="fa-regular fa-message social-icon"></i>
+                  {{ items.comentarios }}
+                </button>
+              </li>
+              <li class="social-item">
+                <button class="menu-buttons__contents">
+                  <i class="fa-regular fa-share-from-square social-icon"></i>
+                </button>
+              </li>
+              <!-- <button (click)="DeletePublication(items.id)">Eliminar</button>
+              <button (click)="BtnIsOpenEditing(items.id)">Editar</button> -->
+            </ul>
+          </nav>
+        </div>
+
+        <div class="container-chats"></div>
+      </div>
+
+      } @empty {
+      <p>Por favor añade elementos al inicio</p>
+      }
+    </div>
+  </div>
+</main>

@@ -1,104 +1,108 @@
-<div class="contaiener_1">
-  <div class="bg_wrapper"></div>
-  <div class="main">
-    <span>Bienvenido a</span>
-    <div class="container-img">
-      <img src="/assets/Logo__main.png" alt="Logo Carxy" class="main-img" />
+<main>
+  <div class="container_1">
+    <div class="bg_wrapper"></div>
+    <div class="main">
+      <span>Bienvenido a</span>
+      <div class="container-img">
+        <img src="/assets/Logo__main.png" alt="Logo Carxy" class="main-img" />
+      </div>
     </div>
   </div>
-</div>
-<div class="container_2">
-  <div class="container">
-    <div class="container_3">
-      <span>Crea tu cuenta</span>
-    </div>
-    <form (ngSubmit)="onSubmit(userForm)" #userForm="ngForm">
-      <div class="group-input">
-        <label for="nombre_usuario">Nombre de Usuario</label>
-        <input
-          type="text"
-          id="nombre_usuario"
-          name="nombre_usuario"
-          placeholder="Ingresa tu nombre de usuario"
-          required
-          [(ngModel)]="user.nombre_usuario"
-        />
+  <div class="container_2">
+    <div class="container">
+      <div class="container_3">
+        <span>Crea tu cuenta</span>
       </div>
-      <div class="group-input">
-        <label for="primer_nombre">Primer Nombre</label>
-        <input
-          type="text"
-          id="primer_nombre"
-          name="primer_nombre"
-          placeholder="Ingresa tu primer nombre"
-          required
-          [(ngModel)]="user.primer_nombre"
-        />
-      </div>
-      <div class="group-input">
-        <label for="segundo_nombre">Segundo Nombre</label>
-        <input
-          type="text"
-          id="segundo_nombre"
-          name="segundo_nombre"
-          placeholder="Ingresa tu segundo nombre"
-          [(ngModel)]="user.segundo_nombre"
-        />
-      </div>
-      <div class="group-input">
-        <label for="primero_apellido">Primer Apellido</label>
-        <input
-          type="text"
-          id="primero_apellido"
-          name="primero_apellido"
-          placeholder="Ingresa tu primer apellido"
-          required
-          [(ngModel)]="user.primero_apellido"
-        />
-      </div>
-      <div class="group-input">
-        <label for="segundo_apellido">Segundo Apellido</label>
-        <input
-          type="text"
-          id="segundo_apellido"
-          name="segundo_apellido"
-          placeholder="Ingresa tu segundo apellido"
-          [(ngModel)]="user.segundo_apellido"
-        />
-      </div>
-      <div class="group-input">
-        <label for="correo">Correo</label>
-        <input
-          type="email"
-          id="correo"
-          name="correo"
-          placeholder="Ingresa tu correo"
-          required
-          [(ngModel)]="user.correo"
-        />
-      </div>
-      <div class="group-input">
-        <label for="contrasena">Contraseña</label>
-        <input
-          type="password"
-          id="contrasena"
-          name="contrasena"
-          placeholder="Ingresa una contraseña"
-          required
-          [(ngModel)]="user.contrasena"
-        />
-      </div>
+      <form (ngSubmit)="onSubmit(userForm)" #userForm="ngForm">
+        <div class="group-input">
+          <label for="nombre_usuario">Nombre de Usuario</label>
+          <input
+            type="text"
+            id="nombre_usuario"
+            name="nombre_usuario"
+            placeholder="Ingresa tu nombre de usuario"
+            required
+            [(ngModel)]="user.nombre_usuario"
+          />
+        </div>
+        <div class="group-input">
+          <label for="primer_nombre">Primer Nombre</label>
+          <input
+            type="text"
+            id="primer_nombre"
+            name="primer_nombre"
+            placeholder="Ingresa tu primer nombre"
+            required
+            [(ngModel)]="user.primer_nombre"
+          />
+        </div>
+        <div class="group-input">
+          <label for="segundo_nombre">Segundo Nombre</label>
+          <input
+            type="text"
+            id="segundo_nombre"
+            name="segundo_nombre"
+            placeholder="Ingresa tu segundo nombre"
+            [(ngModel)]="user.segundo_nombre"
+          />
+        </div>
+        <div class="group-input">
+          <label for="primero_apellido">Primer Apellido</label>
+          <input
+            type="text"
+            id="primero_apellido"
+            name="primero_apellido"
+            placeholder="Ingresa tu primer apellido"
+            required
+            [(ngModel)]="user.primero_apellido"
+          />
+        </div>
+        <div class="group-input">
+          <label for="segundo_apellido">Segundo Apellido</label>
+          <input
+            type="text"
+            id="segundo_apellido"
+            name="segundo_apellido"
+            placeholder="Ingresa tu segundo apellido"
+            [(ngModel)]="user.segundo_apellido"
+          />
+        </div>
+        <div class="group-input">
+          <label for="correo">Correo</label>
+          <input
+            type="email"
+            id="correo"
+            name="correo"
+            placeholder="Ingresa tu correo"
+            required
+            [(ngModel)]="user.correo"
+          />
+        </div>
+        <div class="group-input">
+          <label for="contrasena">Contraseña</label>
+          <input
+            type="password"
+            id="contrasena"
+            name="contrasena"
+            placeholder="Ingresa una contraseña"
+            required
+            [(ngModel)]="user.contrasena"
+          />
+        </div>
 
-      <div class="container-button">
-        <button
-          type="submit"
-          class="button btn-1"
-          [disabled]="userForm.invalid"
-        >
-          Registrarse
-        </button>
-        <a routerLink="/login" class="button btn-2">Iniciar sesión</a>
-      </div>
-    </form>
+        <div class="container-button">
+          <button
+            type="submit"
+            class="button btn-1"
+            [disabled]="userForm.invalid"
+          >
+            Registrarse
+          </button>
+          <button routerLink="/login" class="button btn-2">
+            Iniciar sesión
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
-</div>
+</main>

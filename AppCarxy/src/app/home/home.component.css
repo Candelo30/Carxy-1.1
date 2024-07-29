@@ -1,3 +1,4 @@
+/* Estilos globales */
 * {
   box-sizing: border-box;
   scrollbar-width: thin; /* Puedes usar auto, thin o none */
@@ -10,23 +11,33 @@
 }
 
 .elementsView {
+  z-index: 2;
+  position: absolute;
+  top: 100%;
+  right: 30px;
   display: flex;
+  flex-direction: column;
   gap: 10px;
   padding: 3px;
   width: 200px;
-  position: absolute;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border: 1px solid var(--purple-heart-300);
-
-  top: 100%;
-  right: 30px;
-
+  background-color: var(--purple-heart-900);
+  color: var(--purple-heart-100);
+  border: 1px solid var(--purple-heart-600);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   transition: all ease 300ms;
+}
+
+/* Si quieres que el fondo sea blanco, puedes sobreescribirlo aquí */
+.elementsView--light {
+  background-color: #fff;
+  border: 1px solid var(--purple-heart-300);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .elementsView ul {
   list-style: none;
   padding: 0;
+  margin: 0;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -38,10 +49,28 @@
   border: 1px solid var(--purple-heart-300);
   border-radius: 20px;
   padding: 5px;
+  transition: background-color ease 300ms;
 }
 
 .elementsView ul li:hover {
   background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para el modo oscuro */
+@media (prefers-color-scheme: dark) {
+  .elementsView {
+    background-color: #000;
+    border-right: 2px solid var(--purple-heart-700);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  }
+
+  .elementsView ul li {
+    border: 1px solid var(--purple-heart-700);
+  }
+
+  .elementsView ul li:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
 }
 
 .list-icon {
@@ -90,7 +119,6 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   grid-column: 2 / 13;
   grid-row: 1;
 }
@@ -122,44 +150,29 @@ header {
 }
 
 /* Parte 2 - Header */
-
 .header-part__2 {
   display: flex;
-
   gap: 15px;
   margin-right: 10px;
   align-items: center;
   align-content: center;
 }
 
-/* .NewCarBtn {
-  display: flex;
-  justify-content: space-between;
-  background-color: transparent;
-  border: 1px solid var(--purple-heart-400);
-  align-items: center;
-  border-radius: 20px;
-  width: 170px;
-  padding: 10px;
-
-  font-size: 1em;
-}
-
-.NewCarBtn:hover {
-  background-color: var(--purple-heart-300);
-  border: 1px solid black;
-} */
-
 main {
   grid-column: 2 / 13;
   grid-row: 2 / 13;
-
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   gap: 10px;
   padding: 10px;
+}
+
+@media only screen and (max-width: 680px) {
+  main {
+    grid-column: 1 / 13;
+  }
 }
 
 .container-box {
@@ -260,4 +273,70 @@ p {
 
 .social-icon:hover {
   color: var(--purple-heart-600);
+}
+
+/* Estilos para el modo oscuro */
+@media (prefers-color-scheme: dark) {
+  aside {
+    background-color: #000;
+    border-right: 2px solid var(--purple-heart-700);
+  }
+
+  @media only screen and (max-width: 680px) {
+    aside {
+      border-top: 2px solid var(--purple-heart-700);
+    }
+  }
+
+  .list-link {
+    color: var(--purple-heart-300);
+  }
+
+  .list-link.active {
+    color: var(--purple-heart-100);
+  }
+
+  .list-link:hover {
+    color: var(--purple-heart-200);
+  }
+
+  .header {
+    border-bottom: 2px solid var(--purple-heart-600);
+  }
+
+  .banner-icon {
+    filter: brightness(0.8);
+  }
+
+  .welcome {
+    background-color: var(--purple-heart-900);
+    border-bottom: 2px solid var(--purple-heart-700);
+  }
+
+  .container-box {
+    background-color: var(--purple-heart-950);
+  }
+
+  .box {
+    background-color: var(--purple-heart-800);
+    border: 1px solid var(--purple-heart-600);
+  }
+
+  .box-info b,
+  .box-info small {
+    color: var(--purple-heart-200);
+  }
+
+  .menu-buttons__contents {
+    background: var(--purple-heart-700);
+    color: var(--purple-heart-200);
+  }
+
+  .menu-buttons__contents:hover {
+    background-color: var(--purple-heart-600);
+  }
+
+  .social-icon {
+    color: var(--purple-heart-200);
+  }
 }

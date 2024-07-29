@@ -29,7 +29,7 @@ export class RegisterComponent {
   }
 
   getData() {
-    this.UserService.getData('usuarios').subscribe((data) => {
+    this.UserService.getData('api/usuario').subscribe((data) => {
       this.allData = data;
     });
   }
@@ -44,7 +44,7 @@ export class RegisterComponent {
       if (userExists) {
         alert('El usuario ya existe');
       } else {
-        this.UserService.addUser('usuarios', newUser).subscribe(
+        this.UserService.addUser('api/usuario', newUser).subscribe(
           (response) => {
             alert('Has hecho el registro con éxito');
             this.router.navigate(['/login']);

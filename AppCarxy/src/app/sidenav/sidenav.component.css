@@ -7,6 +7,15 @@ aside {
   width: 100%;
   height: 100%;
   position: relative;
+  background-color: var(--purple-heart-50); /* Fondo del aside */
+}
+
+/* Estilos para el modo oscuro */
+@media (prefers-color-scheme: dark) {
+  aside {
+    background-color: #000;
+    border-right: 2px solid var(--purple-heart-700);
+  }
 }
 
 @media only screen and (max-width: 680px) {
@@ -72,15 +81,16 @@ aside {
 }
 
 .list-link {
-  color: var(--purple-heart-400);
+  color: var(--purple-heart-400); /* Color de los enlaces */
+  text-decoration: none;
 }
 
 .list-link.active {
-  color: var(--purple-heart-700);
+  color: var(--purple-heart-700); /* Color de los enlaces activos */
 }
 
 .list-link:hover {
-  color: var(--purple-heart-500);
+  color: var(--purple-heart-500); /* Color de los enlaces al pasar el mouse */
 }
 
 .elementsView {
@@ -90,10 +100,11 @@ aside {
   position: absolute;
   width: 200px;
   box-shadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.5);
-  background-color: var(--purple-heart-950);
-
+  background-color: var(
+    --purple-heart-950
+  ); /* Fondo de la vista de elementos */
+  color: var(--purple-heart-50); /* Color del texto de la vista de elementos */
   bottom: 10px;
-
   transform: translateX(70%);
   transition: all ease 300ms;
 }
@@ -102,6 +113,7 @@ aside {
   list-style: none;
   padding: 0;
 }
+
 .elementsView ul li {
   cursor: pointer;
 }
@@ -109,4 +121,11 @@ aside {
 button {
   background-color: transparent;
   border: none;
+  color: var(--purple-heart-400); /* Color del texto de los botones */
+}
+
+button:hover {
+  color: var(
+    --purple-heart-500
+  ); /* Color del texto de los botones al pasar el mouse */
 }

@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -8,22 +8,49 @@ import { Observable } from 'rxjs';
 export class PublicationService {
   constructor(private http: HttpClient) {}
 
-  private apiUrlPexel = 'https://api.pexels.com/v1';
-  private apiKey = 'H4npBNy8qNkMn788obRdka1cxnAUEkFUSMckEya6WKwXLXx93S2ybwBR';
+  APIUrl = 'http://127.0.0.1:8000';
 
-  // H4npBNy8qNkMn788obRdka1cxnAUEkFUSMckEya6WKwXLXx93S2ybwBR
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json; multipart/form-data; charset=UTF-8',
+    }),
+  };
 
-  APIUrl = 'http://localhost:3002';
-  viewPublications(endpoint: String): Observable<any> {
-    return this.http.get(`${this.APIUrl}/${endpoint}`);
+  viewPublications(endpoint: string): Observable<any> {
+    console.log(`${this.APIUrl}/${endpoint}`);
+    return this.http.get(`${this.APIUrl}/${endpoint}/`, this.httpOptions);
   }
 
-  searchPhotos(query: string, perPage: number = 10): Observable<any> {
-    const headers = new HttpHeaders().set('Authorization', this.apiKey);
-    const params = new HttpParams()
-      .set('query', query)
-      .set('per_page', perPage.toString());
+  viewPublicationsForUser(endpoint: string, idUser: number): Observable<any> {
+    return this.http.get(
+      `${this.APIUrl}/${endpoint}?nombre_usuario_id=${idUser}`,
+      this.httpOptions
+    );
+  }
+  deletePublications(endpoint: string, param: string): Observable<any> {
+    return this.http.delete(
+      `${this.APIUrl}/${endpoint}/${param}/`,
+      this.httpOptions
+    );
+  }
 
-    return this.http.get(`${this.apiUrlPexel}/search`, { headers, params });
+  updatePublication(
+    endpoint: string,
+    param: string,
+    data: any
+  ): Observable<any> {
+    return this.http.patch(
+      `${this.APIUrl}/${endpoint}/${param}/`,
+      data,
+      this.httpOptions
+    );
+  }
+
+  addPublication(data: any): Observable<any> {
+    return this.http.post(
+      `${this.APIUrl}/api/publicaciones/`,
+      JSON.stringify(data),
+      this.httpOptions
+    );
   }
 }
