@@ -15,12 +15,6 @@ import { response } from 'express';
   styleUrl: './profile-user.component.css',
 })
 export class ProfileUSerComponent implements OnInit {
-  constructor(
-    private UserService: UsuariosService,
-    private PublicationsServices: PublicationService,
-    private router: Router
-  ) {}
-
   nombreUsuario: string = '';
   avatarUsuario: string = '';
   nameUser = '';
@@ -32,9 +26,36 @@ export class ProfileUSerComponent implements OnInit {
   previewUrl: string | null = null;
   OpenCreateNewPublication: boolean = false;
   idUser = 0;
-
+  base64Image: string | null = null; // Variable de clase para la imagen en base64
   allData: any = [];
   descripcion = '';
+
+  constructor(
+    private UserService: UsuariosService,
+    private PublicationsServices: PublicationService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    const loggedInUser = localStorage.getItem('loggedInUser');
+    if (loggedInUser) {
+      const user = JSON.parse(loggedInUser);
+      this.nombreUsuario = user.nombre_usuario;
+      this.avatarUsuario = `https://ui-avatars.com/api/?name=${user.primer_nombre}+${user.primero_apellido}&background=random`;
+
+      // Asignar más información del usuario
+      this.idUser = user.id;
+      this.nameUser = user.primer_nombre;
+      this.middleNameUser = user.segundo_nombre;
+      this.FirstSurname = user.primero_apellido;
+      this.SecondSurname = user.segundo_apellido;
+
+      // Llamar a otros métodos como `publications` si es necesario
+      this.publications();
+    } else {
+      this.router.navigate(['/login']);
+    }
+  }
 
   actualizarNombreUsuario(): void {
     const usuario = this.UserService.Username;
@@ -42,11 +63,7 @@ export class ProfileUSerComponent implements OnInit {
     if (usuario) {
       this.nombreUsuario = usuario;
       this.avatarUsuario = imgUsuario;
-
-      // additional information User
-
       this.idUser = this.UserService.idUSer;
-      console.log(this.idUser);
       this.nameUser = this.UserService.nameUser;
       this.middleNameUser = this.UserService.middleNameUser;
       this.FirstSurname = this.UserService.FirstSurname;
@@ -58,36 +75,30 @@ export class ProfileUSerComponent implements OnInit {
     }
   }
 
-  //
-
   submitPublication() {
     const newPublication = {
-      nombre_usuario: `${this.idUser}`,
-      descripcion: `${this.descripcion}`,
-      fecha_publicacion: `${new Date().toISOString()}`, // Usar formato ISO
+      nombre_usuario: this.idUser,
+      descripcion: this.descripcion,
+      fecha_publicacion: new Date().toISOString(), // Usar formato ISO
       me_gusta: 0,
       no_me_gusta: 0,
+      imagen: this.base64Image, // Añadir imagen en base64
     };
-    if (newPublication.descripcion != '') {
+
+    if (newPublication.descripcion !== '') {
       this.PublicationsServices.addPublication(newPublication).subscribe(
         (response) => {
           alert('Datos enviados con éxito');
           window.location.reload();
-
-          this.clearFields(); // Limpiar los campos después de enviar
+          this.clearFields();
         },
         (error) => {
           console.error('Error al crear la publicación', error);
-          console.error('Detalles del error:', error.error); // Añadir esta línea para detalles del error
-          console.log(
-            'Este es el nombre de usuario',
-            newPublication.nombre_usuario
-          );
         }
       );
     } else {
       alert(
-        'Las publicaciones tienen una descripción\n No dejes este campo vació por favor'
+        'Las publicaciones deben tener una descripción. No dejes este campo vacío, por favor.'
       );
     }
   }
@@ -96,6 +107,7 @@ export class ProfileUSerComponent implements OnInit {
     this.descripcion = '';
     this.previewUrl = null;
     this.selectedFile = null;
+    this.base64Image = null;
     this.OpenCreateNewPublication = false;
   }
 
@@ -104,13 +116,12 @@ export class ProfileUSerComponent implements OnInit {
     if (this.selectedFile) {
       const reader = new FileReader();
       reader.onload = () => {
-        this.previewUrl = reader.result as string;
+        this.base64Image = reader.result as string;
+        this.previewUrl = this.base64Image; // Mostrar la imagen previa
       };
       reader.readAsDataURL(this.selectedFile);
     }
   }
-
-  //
 
   getFormattedDate(dateStr: string): string {
     return formatDate(new Date(dateStr), 'yyyy-MM-dd', 'en-US');
@@ -118,11 +129,6 @@ export class ProfileUSerComponent implements OnInit {
 
   BtnOpenCreateNewPublication() {
     this.OpenCreateNewPublication = !this.OpenCreateNewPublication;
-  }
-
-  ngOnInit(): void {
-    this.actualizarNombreUsuario();
-    this.publications();
   }
 
   ShowElements() {
@@ -141,7 +147,7 @@ export class ProfileUSerComponent implements OnInit {
   }
 
   logout(): void {
-    this.UserService.logout(this.UserService.Username);
-    window.location.reload(); // Recarga la página
+    localStorage.removeItem('loggedInUser');
+    this.router.navigate(['/login']); // Redirige al login en lugar de recargar la página
   }
 }

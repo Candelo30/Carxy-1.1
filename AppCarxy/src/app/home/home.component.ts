@@ -50,9 +50,21 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.actualizarNombreUsuario();
-    this.publications();
-    this.shuffleItems();
+    const loggedInUser = localStorage.getItem('loggedInUser');
+    if (loggedInUser) {
+      // Usuario ya está logueado
+      const user = JSON.parse(loggedInUser);
+      console.log(user);
+      this.nombreUsuario = user.nombre_usuario;
+      this.avatarUsuario = `https://ui-avatars.com/api/?name=${user.primer_nombre}+${user.primero_apellido}&background=random`;
+
+      // Llama a otros métodos como `publications` si es necesario
+      this.publications();
+      this.shuffleItems();
+    } else {
+      // Redirige al login si no está logueado
+      this.router.navigate(['/login']);
+    }
   }
 
   publications() {

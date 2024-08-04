@@ -1,0 +1,57 @@
+<!-- Cabecera de diseño -->
+<header class="header">
+  <div class="header-part__1">
+    <div class="header-part-1__icon" routerLink="/panel">
+      <i class="fa-solid fa-chevron-left"></i>
+    </div>
+
+    <div class="header-part-1__title">
+      <span> {{ titleCar }} </span>
+    </div>
+  </div>
+
+  <div class="header-part__2">
+    <div class="status">
+      <div
+        class="color-status"
+        [class]="saveDesingStatus === true ? 'save' : 'NoSave'"
+      ></div>
+      <span>
+        {{ saveDesingStatus === true ? "Guardado" : "No guardado" }}
+      </span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="view-element">
+    <div class="wrapper-bg"></div>
+
+    <div class="container-element--car" #rendererContainer></div>
+  </div>
+
+  <div class="container-panel__footer">
+    <div class="container-panel__desing">
+      <div class="container-colors">
+        <span>Colores</span>
+        <div class="colors">
+          @for (item of colorList; track item.id) {
+
+          <div
+            class="box-color"
+            [style.background-color]="item.bgColor"
+            (click)="changeCubeColor(item.bgColor)"
+          ></div>
+          }
+        </div>
+      </div>
+      <div class="panel-desing__icons">
+        <i
+          class="fa-regular fa-floppy-disk"
+          (click)="saveDesingStatus = !saveDesingStatus"
+        ></i>
+        <i class="fa-solid fa-download"></i>
+      </div>
+    </div>
+  </div>
+</main>

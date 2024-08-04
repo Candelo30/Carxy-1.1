@@ -37,6 +37,9 @@ export class LoginComponent implements OnInit {
     if (user) {
       alert('Sus datos son correctos');
 
+      // Almacenar el usuario en localStorage
+      localStorage.setItem('loggedInUser', JSON.stringify(user));
+
       this.router.navigate(['/home']);
       this.UserService.getUserExisting(
         user.id,
