@@ -40,7 +40,7 @@
           <div
             class="box-color"
             [style.background-color]="item.bgColor"
-            (click)="changeCubeColor(item.bgColor)"
+            (click)="changeModelColor(item.bgColor)"
           ></div>
           }
         </div>
@@ -52,6 +52,11 @@
         ></i>
         <i class="fa-solid fa-download"></i>
       </div>
+    </div>
+    <div class="elements-separate">
+      @for (itemsCars of parts; track itemsCars) {
+      <canvas #partCanvas (click)="onPartClick(itemsCars)"></canvas>
+      }
     </div>
   </div>
 </main>

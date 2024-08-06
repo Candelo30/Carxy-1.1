@@ -94,7 +94,7 @@ main {
 
 .view-element {
   grid-column: 1/13;
-  grid-row: 1/11;
+  grid-row: 1/10;
   background-image: url(../../assets/img-wrapper.jpg);
 
   background-position: center;
@@ -113,30 +113,22 @@ main {
 }
 
 .container-element--car {
-  z-index: 10;
   position: relative;
   width: 100%;
   height: 100%;
-  display: flex;
-  align-items: center;
-
-  justify-content: center;
-  object-position: center;
-  object-fit: fill;
-  overflow: hidden;
 }
 
-.container-element--car canvas {
+.container-element--car > canvas {
   width: 100%;
-  max-width: 700px;
+  height: 100%;
+  display: block; /* Esto evita que aparezcan espacios en blanco debajo del canvas en algunos navegadores */
 }
 
 .container-panel__footer {
   display: flex;
   flex-direction: column;
-  grid-column: 1/13;
-  grid-row: 11/13;
-
+  grid-column: 1 / 13;
+  grid-row: 10 / 13;
   border-top: 1px solid var(--purple-heart-400);
 }
 
@@ -145,7 +137,6 @@ main {
   padding: 10px;
   display: flex;
   align-items: center;
-  align-content: center;
   justify-content: space-between;
   border-bottom: 1px solid var(--purple-heart-400);
 }
@@ -153,32 +144,56 @@ main {
 .container-colors {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 10px;
 }
 
 .colors {
-  width: 100%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
   gap: 10px;
 }
 
 .box-color {
-  width: 20px;
+  width: 20px; /* Tamaño ligeramente más grande para mayor visibilidad */
   height: 20px;
-  border-radius: 50px;
+  border-radius: 50%;
+  cursor: pointer; /* Añadir cursor pointer para indicar que el elemento es clickeable */
+  transition: background-color 0.3s ease; /* Transición suave al cambiar de color */
+}
+
+.box-color:hover {
+  opacity: 0.8; /* Efecto de hover para la caja de color */
 }
 
 .panel-desing__icons {
   font-size: 1.5em;
   display: flex;
-  align-items: center;
   gap: 10px;
+}
+
+.panel-desing__icons > i {
+  cursor: pointer; /* Añadir cursor pointer para indicar que el icono es clickeable */
+  transition: color 0.3s ease; /* Transición suave al cambiar el color del icono */
 }
 
 .panel-desing__icons > i:hover {
   color: var(--purple-heart-400);
+}
+
+.elements-separate {
+  width: 100%;
+  height: auto; /* Cambia esto según sea necesario */
+  display: flex;
+  flex-wrap: wrap; /* Asegúrate de que los canvases se ajusten correctamente */
+  gap: 10px;
+  overflow-x: auto;
+  padding: 10px;
+}
+
+.elements-separate > canvas {
+  width: 300px; /* Ajusta el tamaño según sea necesario */
+  height: 300px; /* Ajusta el tamaño según sea necesario */
+  display: block;
+  border: 1px solid var(--purple-heart-400);
+  object-fit: contain; /* Ajusta el contenido del canvas dentro del área visible */
 }
