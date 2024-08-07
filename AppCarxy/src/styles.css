@@ -3,25 +3,6 @@
 * {
   box-sizing: border-box;
   color-scheme: dark light;
-}
-
-:root {
-  --purple-heart-50: #f3f1ff;
-  --purple-heart-100: #ebe5ff;
-  --purple-heart-200: #d9ceff;
-  --purple-heart-300: #bea6ff;
-  --purple-heart-400: #9f75ff;
-  --purple-heart-500: #843dff;
-  --purple-heart-600: #7916ff;
-  --purple-heart-700: #6b04fd;
-  --purple-heart-800: #5a03d5; /* Color primario */
-  --purple-heart-900: #4b05ad;
-  --purple-heart-950: #2c0076;
-
-  /* Funtes y tamaños de texto */
-  --font-text: "Josefin Sans", sans-serif;
-  --font-text_2: "Roboto", sans-serif;
-
   /* Scroll */
 
   scrollbar-width: thin; /* Ancho fino para la barra de desplazamiento */
@@ -56,6 +37,24 @@
   ::-webkit-scrollbar-track:active {
     background: #d4d4d4;
   }
+}
+
+:root {
+  --purple-heart-50: #f3f1ff;
+  --purple-heart-100: #ebe5ff;
+  --purple-heart-200: #d9ceff;
+  --purple-heart-300: #bea6ff;
+  --purple-heart-400: #9f75ff;
+  --purple-heart-500: #843dff;
+  --purple-heart-600: #7916ff;
+  --purple-heart-700: #6b04fd;
+  --purple-heart-800: #5a03d5; /* Color primario */
+  --purple-heart-900: #4b05ad;
+  --purple-heart-950: #2c0076;
+
+  /* Funtes y tamaños de texto */
+  --font-text: "Josefin Sans", sans-serif;
+  --font-text_2: "Roboto", sans-serif;
 }
 
 body {

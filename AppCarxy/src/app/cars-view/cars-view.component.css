@@ -116,12 +116,14 @@ main {
   position: relative;
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 
 .container-element--car > canvas {
   width: 100%;
   height: 100%;
   display: block; /* Esto evita que aparezcan espacios en blanco debajo del canvas en algunos navegadores */
+  object-position: center;
 }
 
 .container-panel__footer {
@@ -183,17 +185,12 @@ main {
 .elements-separate {
   width: 100%;
   height: auto; /* Cambia esto según sea necesario */
-  display: flex;
-  flex-wrap: wrap; /* Asegúrate de que los canvases se ajusten correctamente */
   gap: 10px;
   overflow-x: auto;
   padding: 10px;
 }
 
-.elements-separate > canvas {
-  width: 300px; /* Ajusta el tamaño según sea necesario */
-  height: 300px; /* Ajusta el tamaño según sea necesario */
-  display: block;
-  border: 1px solid var(--purple-heart-400);
-  object-fit: contain; /* Ajusta el contenido del canvas dentro del área visible */
+.elements-separate > ul > li {
+  cursor: pointer;
+  border-bottom: 1px solid var(--purple-heart-400);
 }

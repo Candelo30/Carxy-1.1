@@ -41,11 +41,14 @@
             class="box-color"
             [style.background-color]="item.bgColor"
             (click)="changeModelColor(item.bgColor)"
+            z
           ></div>
           }
         </div>
       </div>
       <div class="panel-desing__icons">
+        <button (click)="resetPartColor()">Restablecer Color</button>
+        <button (click)="resetCamera()">Restablecer Cámara</button>
         <i
           class="fa-regular fa-floppy-disk"
           (click)="saveDesingStatus = !saveDesingStatus"
@@ -54,9 +57,13 @@
       </div>
     </div>
     <div class="elements-separate">
-      @for (itemsCars of parts; track itemsCars) {
-      <canvas #partCanvas (click)="onPartClick(itemsCars)"></canvas>
-      }
+      <ul>
+        @for (itemsCars of parts; track itemsCars) {
+        <li #partCanvas (click)="onPartClick(itemsCars)">
+          {{ itemsCars.name }}
+        </li>
+        }
+      </ul>
     </div>
   </div>
 </main>
