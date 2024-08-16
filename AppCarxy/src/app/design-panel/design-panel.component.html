@@ -1,0 +1,87 @@
+<app-sidenav> </app-sidenav>
+
+<header class="header">
+  <div class="header-part__1">
+    <img src="../../favicon.ico" alt="logo" class="baner-icon" />
+    <div class="header-part-1__icon">
+      <i class="fa-solid fa-pencil"></i>
+    </div>
+    <div class="header-part-1__title">
+      <span>Panel de Diseño</span>
+    </div>
+  </div>
+  <div class="header-part__2">
+    <span>{{ this.TotalCars }}</span>
+    <div class="status"></div>
+    <div>
+      <button class="NewCarBtn" (click)="OpenModalAddCar()">
+        Crear diseños
+        <i class="fa-solid fa-circle-plus"></i>
+      </button>
+    </div>
+  </div>
+</header>
+
+@if (IsOpenModal) {
+<aside>
+  <div class="content_asider">
+    <div class="closeModal" (click)="OpenModalAddCar()">
+      <i class="fa-solid fa-x"></i>
+    </div>
+    <div class="modal-content">
+      <h3>Seleccionar Diseño</h3>
+      <div>
+        <label for="car-select">Elige un carro:</label>
+        <select id="car-select" [(ngModel)]="selectedCar">
+          @for (car of availableCars; track car) {
+          <option [ngValue]="car">
+            {{ car.nombre_modelo }}
+          </option>
+          }
+        </select>
+      </div>
+      <div>
+        <label for="title">Título:</label>
+        <input id="title" type="text" [(ngModel)]="selectedTitle" />
+      </div>
+      <button class="savePersonalization" (click)="savePersonalization()">
+        Guardar
+      </button>
+    </div>
+  </div>
+</aside>
+<div class="overlay"></div>
+<!-- Contenedor para interceptar eventos -->
+}
+
+<main>
+  <div class="container-main">
+    @for (item of listCartsDesing; track item.id) {
+
+    <div class="box">
+      <a [routerLink]="['/cars-view', item.id]">
+        <div class="container-img__panel">
+          <img
+            [src]="item.imagen_personalizacion"
+            alt=""
+            class="img-car-panel"
+          />
+        </div>
+      </a>
+      <div class="more-tools">
+        <span class="title"> {{ item.nombre_personalizacion }} </span>
+        <div class="tools-icons">
+          <!-- (click)="copyCar(item.id)" -->
+          <i class="fa-solid fa-copy"></i>
+          <i class="fa-solid fa-pen"></i>
+          <!-- (click)="deleteCar(item.id)" -->
+          <i class="fa-solid fa-trash"></i>
+        </div>
+      </div>
+    </div>
+
+    } @empty {
+    <p>Por favor añade elementos al panel</p>
+    }
+  </div>
+</main>

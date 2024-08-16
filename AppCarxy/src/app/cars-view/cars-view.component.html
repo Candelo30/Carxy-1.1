@@ -21,6 +21,11 @@
       </span>
     </div>
   </div>
+  @if (loading) {
+  <div class="loading-bar-container">
+    <div class="loading-bar" [style]="{ 'width.%': progress }"></div>
+  </div>
+  }
 </header>
 
 <main>
@@ -28,6 +33,75 @@
     <div class="wrapper-bg"></div>
 
     <div class="container-element--car" #rendererContainer></div>
+
+    <div class="controls">
+      <div>
+        <label for="rotationX">Rotación X:</label>
+        <input
+          type="range"
+          id="rotationX"
+          min="-180"
+          max="180"
+          [(ngModel)]="rotationX"
+          (input)="updateTransform()"
+        />
+      </div>
+      <div>
+        <label for="rotationY">Rotación Y:</label>
+        <input
+          type="range"
+          id="rotationY"
+          min="-180"
+          max="180"
+          [(ngModel)]="rotationY"
+          (input)="updateTransform()"
+        />
+      </div>
+      <div>
+        <label for="rotationZ">Rotación Z:</label>
+        <input
+          type="range"
+          id="rotationZ"
+          min="-180"
+          max="180"
+          [(ngModel)]="rotationZ"
+          (input)="updateTransform()"
+        />
+      </div>
+      <div>
+        <label for="positionX">Posición X:</label>
+        <input
+          type="range"
+          id="positionX"
+          min="-50"
+          max="50"
+          [(ngModel)]="positionX"
+          (input)="updateTransform()"
+        />
+      </div>
+      <div>
+        <label for="positionY">Posición Y:</label>
+        <input
+          type="range"
+          id="positionY"
+          min="-50"
+          max="50"
+          [(ngModel)]="positionY"
+          (input)="updateTransform()"
+        />
+      </div>
+      <div>
+        <label for="positionZ">Posición Z:</label>
+        <input
+          type="range"
+          id="positionZ"
+          min="-50"
+          max="50"
+          [(ngModel)]="positionZ"
+          (input)="updateTransform()"
+        />
+      </div>
+    </div>
   </div>
 
   <div class="container-panel__footer">
@@ -39,8 +113,8 @@
 
           <div
             class="box-color"
-            [style.background-color]="item.bgColor"
-            (click)="changeModelColor(item.bgColor)"
+            [style.background-color]="item.codigo_hex"
+            (click)="changeModelColor(item.codigo_hex)"
             z
           ></div>
           }

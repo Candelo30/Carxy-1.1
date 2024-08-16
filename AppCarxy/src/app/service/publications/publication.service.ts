@@ -27,6 +27,7 @@ export class PublicationService {
       this.httpOptions
     );
   }
+
   deletePublications(endpoint: string, param: string): Observable<any> {
     return this.http.delete(
       `${this.APIUrl}/${endpoint}/${param}/`,
@@ -50,6 +51,24 @@ export class PublicationService {
     return this.http.post(
       `${this.APIUrl}/api/publicaciones/`,
       JSON.stringify(data),
+      this.httpOptions
+    );
+  }
+
+  likePublication(id: number): Observable<any> {
+    console.log(`${this.APIUrl}/api/publicaciones/${id}/like/`);
+    return this.http.post(
+      `${this.APIUrl}/api/publicaciones/${id}/like/`,
+      {},
+      this.httpOptions
+    );
+  }
+
+  dislikePublication(id: number): Observable<any> {
+    console.log(`${this.APIUrl}/api/publicaciones/${id}/dislike/`);
+    return this.http.post(
+      `${this.APIUrl}/api/publicaciones/${id}/dislike/`,
+      {},
       this.httpOptions
     );
   }

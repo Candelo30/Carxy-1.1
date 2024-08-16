@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { UsuariosService } from '../service/users/usuarios.service';
 import { SidenavComponent } from '../sidenav/sidenav.component';
 import { PublicationService } from '../service/publications/publication.service';
 import { FormsModule } from '@angular/forms';
-import { formatDate } from '@angular/common';
+import { formatDate, isPlatformBrowser } from '@angular/common';
+import { response } from 'express';
 
 @Component({
   selector: 'app-home',
@@ -21,6 +22,7 @@ export class HomeComponent implements OnInit {
   editIndex: number | null = null;
 
   constructor(
+    @Inject(PLATFORM_ID) private platformId: any,
     private UserService: UsuariosService,
     private PublicationsServices: PublicationService,
     private router: Router
@@ -50,20 +52,22 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const loggedInUser = localStorage.getItem('loggedInUser');
-    if (loggedInUser) {
-      // Usuario ya está logueado
-      const user = JSON.parse(loggedInUser);
-      console.log(user);
-      this.nombreUsuario = user.nombre_usuario;
-      this.avatarUsuario = `https://ui-avatars.com/api/?name=${user.primer_nombre}+${user.primero_apellido}&background=random`;
+    if (isPlatformBrowser(this.platformId)) {
+      const loggedInUser = localStorage.getItem('loggedInUser');
+      if (loggedInUser) {
+        // Usuario ya está logueado
+        const user = JSON.parse(loggedInUser);
+        console.log(user);
+        this.nombreUsuario = user.nombre_usuario;
+        this.avatarUsuario = `https://ui-avatars.com/api/?name=${user.primer_nombre}+${user.primero_apellido}&background=random`;
 
-      // Llama a otros métodos como `publications` si es necesario
-      this.publications();
-      this.shuffleItems();
-    } else {
-      // Redirige al login si no está logueado
-      this.router.navigate(['/login']);
+        // Llama a otros métodos como `publications` si es necesario
+        this.publications();
+        this.shuffleItems();
+      } else {
+        // Redirige al login si no está logueado
+        this.router.navigate(['/login']);
+      }
     }
   }
 
@@ -75,6 +79,12 @@ export class HomeComponent implements OnInit {
           console.log(this.allData);
         }
       );
+  }
+
+  like(id: number) {
+    this.PublicationsServices.likePublication(id).subscribe((response) => {
+      alert('Has dado like con éxito');
+    });
   }
 
   DeletePublication(idPublication: string) {
@@ -148,8 +158,8 @@ export class HomeComponent implements OnInit {
   }
 
   logout(): void {
-    this.UserService.logout(this.UserService.Username);
-    window.location.reload(); // Recarga la página
+    localStorage.removeItem('loggedInUser');
+    this.router.navigate(['/login']); // Redirige al login en lugar de recargar la página
   }
 
   getSaludo(): string {

@@ -11,68 +11,71 @@ import {
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { DesingService } from '../service/desing/desing.service';
+import { color } from 'three/webgpu';
 
 @Component({
   selector: 'app-cars-view',
+  standalone: true,
+  imports: [FormsModule, RouterLink],
   templateUrl: './cars-view.component.html',
   styleUrls: ['./cars-view.component.css'],
 })
-export class CarsViewComponent implements OnInit, AfterViewInit {
+export class CarsViewComponent implements OnInit {
   @ViewChild('rendererContainer', { static: true })
   rendererContainer!: ElementRef;
+  constructor(
+    private DesingService: DesingService,
+    private route: ActivatedRoute
+  ) {}
 
-  titleCar = 'Provando Carros';
+  loading = true; // Controla la visibilidad del indicador de carga
+  progress = 0; // Progreso de la carga
+  titleCar = '';
+  saveDesingStatus: boolean = false;
+  private carId!: any;
 
+  // Variables para los controles de rango
+  rotationX: number = 0;
+  rotationY: number = 0;
+  rotationZ: number = 0;
+  positionX: number = 0;
+  positionY: number = 0;
+  positionZ: number = 0;
+
+  // Three.js
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;
   private renderer!: THREE.WebGLRenderer;
   public model!: THREE.Object3D;
   private controls!: OrbitControls;
-
-  private lastMouseX: number | null = null;
-  private lastMouseY: number | null = null;
-  private isMouseOverModel: boolean = false;
-  private isModelMoving: boolean = true;
-
-  private highlightLight!: THREE.PointLight;
-
-  colorList = [
-    { id: 1, bgColor: '#FFFFFF' }, // Blanco
-    { id: 2, bgColor: '#000000' }, // Negro
-    { id: 3, bgColor: '#808080' }, // Gris
-    { id: 4, bgColor: '#C0C0C0' }, // Plata
-    { id: 5, bgColor: '#FFD700' }, // Oro
-    { id: 6, bgColor: '#F5F5DC' }, // Beige
-    { id: 7, bgColor: '#A52A2A' }, // Marrón
-    { id: 8, bgColor: '#D2B48C' }, // Tan
-    { id: 9, bgColor: '#696969' }, // Gris Oscuro
-    { id: 10, bgColor: '#BEBEBE' }, // Gris Claro
-    { id: 11, bgColor: '#F0E68C' }, // Khaki
-    { id: 12, bgColor: '#FFF8DC' }, // Cornsilk
-    { id: 13, bgColor: '#8B4513' }, // Marrón Oscuro
-    { id: 14, bgColor: '#CD7F32' }, // Bronce
-    { id: 15, bgColor: '#B8860B' }, // Oro Oscuro
-  ];
-
-  saveDesingStatus: boolean = false;
-
   public parts: THREE.Object3D[] = [];
   private currentOutline: THREE.Mesh | null = null;
   private selectedPart: THREE.Mesh | null = null;
   private originalCameraPosition!: THREE.Vector3;
   private originalCameraTarget!: THREE.Vector3;
   private originalColors: Map<THREE.Mesh, THREE.Color> = new Map();
-
-  constructor() {}
+  private highlightLight!: THREE.PointLight;
 
   ngOnInit(): void {
+    this.getColor();
     this.createScene();
     this.loadModel();
+    this.carId = this.route.snapshot.paramMap.get('id');
   }
 
-  ngAfterViewInit(): void {
-    // Esta función permanece para cualquier configuración que necesite ser hecha
-    // después de que las vistas hayan sido completamente inicializadas.
+  colorList: any[] = [];
+
+  getColor() {
+    this.DesingService.getColors('api/colores').subscribe((data) => {
+      this.colorList = data;
+    });
+  }
+
+  getDesing() {
+    this.DesingService.getPartsByPersonalization(this.carId);
   }
 
   createScene(): void {
@@ -130,11 +133,48 @@ export class CarsViewComponent implements OnInit, AfterViewInit {
     animate();
   }
 
+  private loadModel(): void {
+    const loader = new GLTFLoader();
+    loader.load(
+      'assets/gtrrsas.glb',
+      (gltf) => {
+        this.model = gltf.scene;
+        this.model.scale.set(0.1, 0.1, 0.1);
+        this.model.position.set(0, 0, 0);
+        this.scene.add(this.model);
+        this.splitModelIntoParts();
+
+        // Oculta el indicador de carga
+        this.loading = false;
+      },
+      (xhr) => {
+        // Calcula el progreso de la carga
+        if (xhr.lengthComputable) {
+          this.progress = (xhr.loaded / xhr.total) * 100;
+        }
+      },
+      (error) => {
+        console.error('Error loading model:', error);
+
+        // Oculta el indicador de carga en caso de error
+        this.loading = false;
+      }
+    );
+  }
+
   resetCamera(): void {
     this.camera.position.copy(this.originalCameraPosition);
     this.controls.target.copy(this.originalCameraTarget);
     this.controls.update();
     this.highlightLight.visible = false; // Ocultar la luz de resaltado
+    // Variables para los controles de rango
+    this.rotationX = 0;
+    this.rotationY = 0;
+    this.rotationZ = 0;
+    this.positionX = 0;
+    this.positionY = 0;
+    this.positionZ = 0;
+    this.updateTransform();
   }
 
   resetPartColor(): void {
@@ -146,24 +186,6 @@ export class CarsViewComponent implements OnInit, AfterViewInit {
         );
       }
     }
-  }
-
-  loadModel(): void {
-    const loader = new GLTFLoader();
-    loader.load(
-      'assets/gtrrsas.glb',
-      (gltf) => {
-        this.model = gltf.scene;
-        this.model.scale.set(0.1, 0.1, 0.1);
-        this.model.position.set(0, 0, 0);
-        this.scene.add(this.model);
-        this.splitModelIntoParts();
-      },
-      undefined,
-      (error) => {
-        console.error('Error loading model:', error);
-      }
-    );
   }
 
   splitModelIntoParts(): void {
@@ -181,48 +203,14 @@ export class CarsViewComponent implements OnInit, AfterViewInit {
     });
   }
 
-  @HostListener('document:mousemove', ['$event'])
-  onMouseMove(event: MouseEvent): void {
-    if (!this.model || !this.isModelMoving) return;
-
-    const mouse = new THREE.Vector2();
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-    const raycaster = new THREE.Raycaster();
-    raycaster.setFromCamera(mouse, this.camera);
-
-    const intersects = raycaster.intersectObjects([this.model], true);
-
-    if (intersects.length > 0) {
-      this.isMouseOverModel = true;
-      if (this.lastMouseX !== null && this.lastMouseY !== null) {
-        const deltaX = event.clientX - this.lastMouseX;
-        const deltaY = event.clientY - this.lastMouseY;
-
-        this.model.rotation.y += deltaX * 0.01;
-        this.model.rotation.x += deltaY * 0.01;
-      }
-    } else {
-      this.isMouseOverModel = false;
-    }
-
-    this.lastMouseX = event.clientX;
-    this.lastMouseY = event.clientY;
-  }
-
-  @HostListener('click', ['$event'])
-  onClick(event: MouseEvent): void {
-    const mouse = new THREE.Vector2();
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-    const raycaster = new THREE.Raycaster();
-    raycaster.setFromCamera(mouse, this.camera);
-
-    const intersects = raycaster.intersectObjects([this.model], true);
-    if (intersects.length > 0) {
-      this.isModelMoving = !this.isModelMoving;
+  updateTransform(): void {
+    if (this.model) {
+      this.model.rotation.x = THREE.MathUtils.degToRad(this.rotationX);
+      this.model.rotation.y = THREE.MathUtils.degToRad(this.rotationY);
+      this.model.rotation.z = THREE.MathUtils.degToRad(this.rotationZ);
+      this.model.position.x = this.positionX;
+      this.model.position.y = this.positionY;
+      this.model.position.z = this.positionZ;
     }
   }
 
@@ -280,4 +268,52 @@ export class CarsViewComponent implements OnInit, AfterViewInit {
 
     return outlineMesh;
   }
+
+  // ! Código Interación Mouse
+  // -----------------------------------------
+
+  // @HostListener('document:mousemove', ['$event'])
+  // onMouseMove(event: MouseEvent): void {
+  //   if (!this.model || !this.isModelMoving) return;
+
+  //   const mouse = new THREE.Vector2();
+  //   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  //   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+  //   const raycaster = new THREE.Raycaster();
+  //   raycaster.setFromCamera(mouse, this.camera);
+
+  //   const intersects = raycaster.intersectObjects([this.model], true);
+
+  //   if (intersects.length > 0) {
+  //     this.isMouseOverModel = true;
+  //     if (this.lastMouseX !== null && this.lastMouseY !== null) {
+  //       const deltaX = event.clientX - this.lastMouseX;
+  //       const deltaY = event.clientY - this.lastMouseY;
+
+  //       this.model.rotation.y += deltaX * 0.01;
+  //       this.model.rotation.x += deltaY * 0.01;
+  //     }
+  //   } else {
+  //     this.isMouseOverModel = false;
+  //   }
+
+  //   this.lastMouseX = event.clientX;
+  //   this.lastMouseY = event.clientY;
+  // }
+
+  // @HostListener('click', ['$event'])
+  // onClick(event: MouseEvent): void {
+  //   const mouse = new THREE.Vector2();
+  //   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  //   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+  //   const raycaster = new THREE.Raycaster();
+  //   raycaster.setFromCamera(mouse, this.camera);
+
+  //   const intersects = raycaster.intersectObjects([this.model], true);
+  //   if (intersects.length > 0) {
+  //     this.isModelMoving = !this.isModelMoving;
+  //   }
+  // }
 }

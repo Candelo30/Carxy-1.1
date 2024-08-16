@@ -324,7 +324,6 @@ p {
   }
 
   .menu-buttons__contents {
-    background: var(--purple-heart-700);
     color: var(--purple-heart-200);
   }
 
@@ -333,6 +332,10 @@ p {
   }
 
   .social-icon {
+    color: var(--purple-heart-200);
+  }
+
+  .social-icon:hover {
     color: var(--purple-heart-200);
   }
 }

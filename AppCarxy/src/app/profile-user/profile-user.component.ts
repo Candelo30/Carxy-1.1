@@ -51,7 +51,7 @@ export class ProfileUSerComponent implements OnInit {
       this.SecondSurname = user.segundo_apellido;
 
       // Llamar a otros métodos como `publications` si es necesario
-      this.publications();
+      this.publications(user.id);
     } else {
       this.router.navigate(['/login']);
     }
@@ -135,11 +135,11 @@ export class ProfileUSerComponent implements OnInit {
     this.ModalIsOpen = !this.ModalIsOpen;
   }
 
-  publications() {
+  publications(id: number) {
     if (this.nombreUsuario != null)
       this.PublicationsServices.viewPublicationsForUser(
         'api/publicaciones',
-        this.UserService.idUSer
+        id
       ).subscribe((data) => {
         this.allData = data;
         console.log(this.allData);
