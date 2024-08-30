@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { UsuariosService } from '../service/users/usuarios.service';
+import { UsuariosService } from '../../service/users/usuarios.service';
 import { SidenavComponent } from '../sidenav/sidenav.component';
-import { PublicationService } from '../service/publications/publication.service';
+import { PublicationService } from '../../service/publications/publication.service';
 import { FormsModule } from '@angular/forms';
 import { formatDate } from '@angular/common';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-home',
@@ -21,6 +22,7 @@ export class HomeComponent implements OnInit {
   editIndex: number | null = null;
 
   constructor(
+    private cookieService: CookieService,
     private UserService: UsuariosService,
     private PublicationsServices: PublicationService,
     private router: Router
@@ -50,13 +52,13 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const loggedInUser = localStorage.getItem('loggedInUser');
+    const loggedInUser = this.cookieService.get('loggedInUser');
     if (loggedInUser) {
       // Usuario ya está logueado
       const user = JSON.parse(loggedInUser);
       console.log(user);
       this.nombreUsuario = user.nombre_usuario;
-      this.avatarUsuario = `https://ui-avatars.com/api/?name=${user.primer_nombre}+${user.primero_apellido}&background=random`;
+      this.avatarUsuario = `https://ui-avatars.com/api/?name=${user.primer_nombre}+${user.primer_apellido}&background=random`;
 
       // Llama a otros métodos como `publications` si es necesario
       this.publications();
@@ -148,8 +150,7 @@ export class HomeComponent implements OnInit {
   }
 
   logout(): void {
-    this.UserService.logout(this.UserService.Username);
-    window.location.reload(); // Recarga la página
+    this.UserService.logout();
   }
 
   getSaludo(): string {

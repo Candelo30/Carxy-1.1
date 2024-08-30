@@ -95,7 +95,6 @@ main {
 .view-element {
   grid-column: 1/13;
   grid-row: 1/10;
-  background-image: url(../../assets/img-wrapper.jpg);
 
   background-position: center;
   background-repeat: no-repeat;

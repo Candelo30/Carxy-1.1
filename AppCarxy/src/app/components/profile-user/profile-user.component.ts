@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { SidenavComponent } from '../sidenav/sidenav.component';
-import { UsuariosService } from '../service/users/usuarios.service';
+import { UsuariosService } from '../../service/users/usuarios.service';
 import { Router } from '@angular/router';
 import { formatDate } from '@angular/common';
-import { PublicationService } from '../service/publications/publication.service';
+import { PublicationService } from '../../service/publications/publication.service';
 import { FormsModule, NgForm } from '@angular/forms';
 import { response } from 'express';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-profile-user',
@@ -33,15 +34,16 @@ export class ProfileUSerComponent implements OnInit {
   constructor(
     private UserService: UsuariosService,
     private PublicationsServices: PublicationService,
-    private router: Router
+    private router: Router,
+    private cookieService: CookieService
   ) {}
 
   ngOnInit(): void {
-    const loggedInUser = localStorage.getItem('loggedInUser');
+    const loggedInUser = this.cookieService.get('loggedInUser');
     if (loggedInUser) {
       const user = JSON.parse(loggedInUser);
       this.nombreUsuario = user.nombre_usuario;
-      this.avatarUsuario = `https://ui-avatars.com/api/?name=${user.primer_nombre}+${user.primero_apellido}&background=random`;
+      this.avatarUsuario = `https://ui-avatars.com/api/?name=${user.primer_nombre}+${user.primer_apellido}&background=random`;
 
       // Asignar más información del usuario
       this.idUser = user.id;
@@ -51,42 +53,26 @@ export class ProfileUSerComponent implements OnInit {
       this.SecondSurname = user.segundo_apellido;
 
       // Llamar a otros métodos como `publications` si es necesario
-      this.publications();
+      this.publications(user.id);
     } else {
       this.router.navigate(['/login']);
     }
   }
 
-  actualizarNombreUsuario(): void {
-    const usuario = this.UserService.Username;
-    const imgUsuario = `https://ui-avatars.com/api/?name=${this.UserService.nameUser}+${this.UserService.FirstSurname}&background=random`;
-    if (usuario) {
-      this.nombreUsuario = usuario;
-      this.avatarUsuario = imgUsuario;
-      this.idUser = this.UserService.idUSer;
-      this.nameUser = this.UserService.nameUser;
-      this.middleNameUser = this.UserService.middleNameUser;
-      this.FirstSurname = this.UserService.FirstSurname;
-      this.SecondSurname = this.UserService.SecondSurname;
-    }
-
-    if (this.nombreUsuario === '') {
-      this.router.navigate(['/login']);
-    }
-  }
-
   submitPublication() {
-    const newPublication = {
-      nombre_usuario: this.idUser,
-      descripcion: this.descripcion,
-      fecha_publicacion: new Date().toISOString(), // Usar formato ISO
-      me_gusta: 0,
-      no_me_gusta: 0,
-      imagen: this.base64Image, // Añadir imagen en base64
-    };
+    const formData = new FormData();
+    formData.append('nombre_usuario', this.idUser.toString());
+    formData.append('descripcion', this.descripcion.toString());
+    formData.append('fecha_publicacion', new Date().toISOString());
+    formData.append('me_gusta', '0');
+    formData.append('no_me_gusta', '0');
 
-    if (newPublication.descripcion !== '') {
-      this.PublicationsServices.addPublication(newPublication).subscribe(
+    if (this.selectedFile) {
+      formData.append('imagen', this.selectedFile);
+    }
+
+    if (this.descripcion !== '') {
+      this.PublicationsServices.addPublication(formData).subscribe(
         (response) => {
           alert('Datos enviados con éxito');
           window.location.reload();
@@ -118,6 +104,7 @@ export class ProfileUSerComponent implements OnInit {
       reader.onload = () => {
         this.base64Image = reader.result as string;
         this.previewUrl = this.base64Image; // Mostrar la imagen previa
+        console.log('Selected file:', this.selectedFile); // Verifica el archivo seleccionado
       };
       reader.readAsDataURL(this.selectedFile);
     }
@@ -135,11 +122,11 @@ export class ProfileUSerComponent implements OnInit {
     this.ModalIsOpen = !this.ModalIsOpen;
   }
 
-  publications() {
+  publications(id: number) {
     if (this.nombreUsuario != null)
       this.PublicationsServices.viewPublicationsForUser(
         'api/publicaciones',
-        this.UserService.idUSer
+        id
       ).subscribe((data) => {
         this.allData = data;
         console.log(this.allData);
@@ -147,7 +134,6 @@ export class ProfileUSerComponent implements OnInit {
   }
 
   logout(): void {
-    localStorage.removeItem('loggedInUser');
-    this.router.navigate(['/login']); // Redirige al login en lugar de recargar la página
+    this.UserService.logout();
   }
 }

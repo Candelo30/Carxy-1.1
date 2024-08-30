@@ -17,7 +17,7 @@ main {
 
 .container_1 {
   z-index: -1;
-  background-image: url(../../assets/city-login__img.jpg);
+  background-image: url("/assets/city-login__img.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;

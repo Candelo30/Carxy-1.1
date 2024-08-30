@@ -1,20 +1,21 @@
-// src/app/interceptor/auth.interceptor.ts
-import { Injectable } from '@angular/core';
-import {
-  HttpInterceptor,
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-} from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { inject } from '@angular/core';
+import { HttpInterceptorFn } from '@angular/common/http';
+import { UsuariosService } from '../service/users/usuarios.service';
 
-@Injectable()
-export class AuthInterceptor implements HttpInterceptor {
-  intercept(
-    req: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
-    // No necesitas agregar el token manualmente si está en las cookies.
-    return next.handle(req);
+export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  const usuariosService = inject(UsuariosService);
+  const token = usuariosService.getToken();
+
+  console.log('Token:', token); // Verifica que el token no sea null o undefined
+
+  if (token) {
+    const authreq = req.clone({
+      setHeaders: {
+        Authorization: `Token ${token}`, // Asegúrate de usar el prefijo correcto
+      },
+    });
+    return next(authreq);
   }
-}
+
+  return next(req);
+};

@@ -12,7 +12,8 @@ export class PublicationService {
 
   private httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/json; multipart/form-data; charset=UTF-8',
+      // No necesitas establecer Content-Type aquí
+      // Otros encabezados si es necesario
     }),
   };
 
@@ -46,11 +47,13 @@ export class PublicationService {
     );
   }
 
-  addPublication(data: any): Observable<any> {
-    return this.http.post(
-      `${this.APIUrl}/api/publicaciones/`,
-      JSON.stringify(data),
-      this.httpOptions
-    );
+  addPublication(data: FormData): Observable<any> {
+    return this.http.post(`${this.APIUrl}/api/publicaciones/`, data);
+  }
+
+  votar(publicacionId: number, esMeGusta: boolean): Observable<any> {
+    return this.http.post(`${this.APIUrl}/${publicacionId}/votar/`, {
+      es_me_gusta: esMeGusta,
+    });
   }
 }

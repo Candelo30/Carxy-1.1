@@ -14,6 +14,13 @@
               ><i class="fa fa-pencil list-icon"></i
             ></a>
           </li>
+          @if (userIsStaff == "administrador") {
+          <li>
+            <a routerLink="/panel" routerLinkActive="active" class="list-link"
+              ><i class="fa-solid fa-gavel list-icon"></i>
+            </a>
+          </li>
+          }
         </ul>
       </nav>
     </div>
