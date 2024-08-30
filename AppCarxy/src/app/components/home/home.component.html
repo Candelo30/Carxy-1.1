@@ -70,7 +70,7 @@
         <nav class="nav-social">
           <ul class="menu-social">
             <li class="social-item">
-              <button class="menu-buttons__contents">
+              <button class="menu-buttons__contents" (click)="like(items.id)">
                 <i class="fa-regular fa-thumbs-up social-icon"></i>
                 {{ items.me_gusta }}
               </button>

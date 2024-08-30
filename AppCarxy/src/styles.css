@@ -74,7 +74,7 @@ app-root {
 
 app-home,
 app-profile-user,
-app-panel,
+app-design-panel,
 app-cars-view {
   grid-column: 1 / 13;
   grid-row: 1 / 13;
@@ -82,6 +82,7 @@ app-cars-view {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: repeat(12, 1fr);
+  overflow: hidden;
 }
 
 app-page-not-found {
@@ -100,6 +101,7 @@ app-page-not-found {
   gap: 10px;
   position: absolute;
   z-index: 20;
+  overflow: hidden;
 }
 
 app-login,
@@ -107,9 +109,11 @@ app-register {
   grid-column: 1 / 13;
   grid-row: 1 / 13;
   display: grid;
+  overflow: hidden;
 }
 
 app-page-not-found {
+  overflow: hidden;
   width: 100vw;
   height: 100vh;
 

@@ -1,11 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { UsuariosService } from '../../service/users/usuarios.service';
 import { SidenavComponent } from '../sidenav/sidenav.component';
 import { PublicationService } from '../../service/publications/publication.service';
 import { FormsModule } from '@angular/forms';
+<<<<<<< HEAD:AppCarxy/src/app/components/home/home.component.ts
 import { formatDate } from '@angular/common';
 import { CookieService } from 'ngx-cookie-service';
+=======
+import { formatDate, isPlatformBrowser } from '@angular/common';
+import { response } from 'express';
+>>>>>>> 057c3682d38b9e5e2f3edcf83fdea8cb6cf0d7d0:AppCarxy/src/app/home/home.component.ts
 
 @Component({
   selector: 'app-home',
@@ -22,7 +27,11 @@ export class HomeComponent implements OnInit {
   editIndex: number | null = null;
 
   constructor(
+<<<<<<< HEAD:AppCarxy/src/app/components/home/home.component.ts
     private cookieService: CookieService,
+=======
+    @Inject(PLATFORM_ID) private platformId: any,
+>>>>>>> 057c3682d38b9e5e2f3edcf83fdea8cb6cf0d7d0:AppCarxy/src/app/home/home.component.ts
     private UserService: UsuariosService,
     private PublicationsServices: PublicationService,
     private router: Router
@@ -52,6 +61,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+<<<<<<< HEAD:AppCarxy/src/app/components/home/home.component.ts
     const loggedInUser = this.cookieService.get('loggedInUser');
     if (loggedInUser) {
       // Usuario ya está logueado
@@ -59,13 +69,24 @@ export class HomeComponent implements OnInit {
       console.log(user);
       this.nombreUsuario = user.nombre_usuario;
       this.avatarUsuario = `https://ui-avatars.com/api/?name=${user.primer_nombre}+${user.primer_apellido}&background=random`;
+=======
+    if (isPlatformBrowser(this.platformId)) {
+      const loggedInUser = localStorage.getItem('loggedInUser');
+      if (loggedInUser) {
+        // Usuario ya está logueado
+        const user = JSON.parse(loggedInUser);
+        console.log(user);
+        this.nombreUsuario = user.nombre_usuario;
+        this.avatarUsuario = `https://ui-avatars.com/api/?name=${user.primer_nombre}+${user.primero_apellido}&background=random`;
+>>>>>>> 057c3682d38b9e5e2f3edcf83fdea8cb6cf0d7d0:AppCarxy/src/app/home/home.component.ts
 
-      // Llama a otros métodos como `publications` si es necesario
-      this.publications();
-      this.shuffleItems();
-    } else {
-      // Redirige al login si no está logueado
-      this.router.navigate(['/login']);
+        // Llama a otros métodos como `publications` si es necesario
+        this.publications();
+        this.shuffleItems();
+      } else {
+        // Redirige al login si no está logueado
+        this.router.navigate(['/login']);
+      }
     }
   }
 
@@ -77,6 +98,12 @@ export class HomeComponent implements OnInit {
           console.log(this.allData);
         }
       );
+  }
+
+  like(id: number) {
+    this.PublicationsServices.likePublication(id).subscribe((response) => {
+      alert('Has dado like con éxito');
+    });
   }
 
   DeletePublication(idPublication: string) {
@@ -150,7 +177,12 @@ export class HomeComponent implements OnInit {
   }
 
   logout(): void {
+<<<<<<< HEAD:AppCarxy/src/app/components/home/home.component.ts
     this.UserService.logout();
+=======
+    localStorage.removeItem('loggedInUser');
+    this.router.navigate(['/login']); // Redirige al login en lugar de recargar la página
+>>>>>>> 057c3682d38b9e5e2f3edcf83fdea8cb6cf0d7d0:AppCarxy/src/app/home/home.component.ts
   }
 
   getSaludo(): string {

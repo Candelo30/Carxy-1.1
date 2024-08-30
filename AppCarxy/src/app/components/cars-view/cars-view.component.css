@@ -3,6 +3,7 @@
 }
 
 .header {
+  position: relative;
   padding: 20px;
   border-bottom: 1px solid var(--purple-heart-400);
   position: relative;
@@ -81,6 +82,25 @@
   font-size: 1.2em;
 }
 
+.loading-bar-container {
+  z-index: 10;
+  position: absolute;
+  top: 101%;
+  left: 0;
+
+  width: 100%;
+  height: 3px;
+  overflow: hidden;
+  background-color: #f3f3f3;
+  border-radius: 2px;
+}
+
+.loading-bar {
+  height: 100%;
+  background-color: #3498db; /* Color de la barra de carga */
+  transition: width 0.3s ease;
+}
+
 /* MAIN */
 
 main {
@@ -93,6 +113,7 @@ main {
 }
 
 .view-element {
+  position: relative;
   grid-column: 1/13;
   grid-row: 1/10;
 
@@ -145,12 +166,13 @@ main {
 .container-colors {
   display: flex;
   align-items: center;
+  width: 200px;
+  overflow-x: auto;
   gap: 10px;
 }
 
 .colors {
   display: flex;
-  flex-wrap: wrap;
   gap: 10px;
 }
 
@@ -192,4 +214,10 @@ main {
 .elements-separate > ul > li {
   cursor: pointer;
   border-bottom: 1px solid var(--purple-heart-400);
+}
+
+.controls {
+  position: absolute;
+  bottom: 0;
+  width: 200px;
 }
