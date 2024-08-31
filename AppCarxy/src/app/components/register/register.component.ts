@@ -36,7 +36,7 @@ export class RegisterComponent {
   }
 
   getData() {
-    this.UserService.getData('api/usuario').subscribe((data) => {
+    this.UserService.getData('/api/usuarios').subscribe((data) => {
       this.allData = data;
     });
   }

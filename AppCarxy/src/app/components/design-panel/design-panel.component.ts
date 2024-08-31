@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { SidenavComponent } from '../sidenav/sidenav.component';
-import { DesingService } from '../service/desing/desing.service';
+import { DesingService } from '../../service/desing/desing.service';
 import { FormsModule } from '@angular/forms';
-import { UsuariosService } from '../service/users/usuarios.service';
+import { UsuariosService } from '../../service/users/usuarios.service';
 import { isPlatformBrowser } from '@angular/common';
 
 @Component({
@@ -93,28 +93,22 @@ export class DesignPanelComponent implements OnInit {
 
       this.desingService
         .createPersonalization('api/personalizaciones', newPersonalization)
-        .subscribe(
-          (data) => {
-            this.listCartsDesing.push(data);
-            this.TotalCars++;
-            this.OpenModalAddCar();
-          },
-          (error) => {}
-        );
+        .subscribe((data) => {
+          this.listCartsDesing.push(data);
+          this.TotalCars++;
+          this.OpenModalAddCar();
+        });
     } else {
     }
   }
 
   // Método para eliminar una personalización
   deleteCar(id: number) {
-    this.desingService.deletePersonalization(id).subscribe(
-      () => {
-        this.listCartsDesing = this.listCartsDesing.filter(
-          (item) => item.id !== id
-        );
-        this.TotalCars--;
-      },
-      (error) => {}
-    );
+    this.desingService.deletePersonalization(id).subscribe(() => {
+      this.listCartsDesing = this.listCartsDesing.filter(
+        (item) => item.id !== id
+      );
+      this.TotalCars--;
+    });
   }
 }

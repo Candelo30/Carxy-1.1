@@ -26,7 +26,8 @@ export class UsuariosService implements OnInit {
   PassWordUSer = '';
 
   APIUrl = 'http://127.0.0.1:8000';
-  getData(endpoint: String): Observable<any> {
+  // Método GET para obtener datos
+  getData(endpoint: string): Observable<any> {
     return this.http.get(`${this.APIUrl}/${endpoint}/`);
   }
 

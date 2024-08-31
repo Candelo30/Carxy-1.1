@@ -13,7 +13,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { DesingService } from '../service/desing/desing.service';
+import { DesingService } from '../../service/desing/desing.service';
 import { color } from 'three/webgpu';
 
 @Component({
@@ -69,13 +69,13 @@ export class CarsViewComponent implements OnInit {
   colorList: any[] = [];
 
   getColor() {
-    this.DesingService.getColors('api/colores').subscribe((data) => {
+    this.DesingService.getColors('api/colores').subscribe((data: any) => {
       this.colorList = data;
     });
   }
 
   getDesing() {
-    this.DesingService.getPartsByPersonalization(this.carId);
+    // this.DesingService.getPartsByPersonalization(this.carId);
   }
 
   createScene(): void {
