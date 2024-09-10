@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
@@ -59,19 +59,15 @@ export class UsuariosService implements OnInit {
     password: string,
     endpoint: string
   ): Observable<any> {
-    return this.http
-      .post<{ token: string }>(
-        `${this.APIUrl}/${endpoint}/`,
-        { nombre_usuario, password }, // Envía nombre_usuario y password
-        { withCredentials: true } // Con credenciales para manejar la autenticación
-      )
-      .pipe(
-        tap((response) => {
-          // Guarda el token en una cookie
-          this.setToken(response.token);
-        })
-      );
+    const token = this.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Token ${token}`);
+    return this.http.post(
+      `${this.APIUrl}/${endpoint}/`,
+      { nombre_usuario, password }, // Envía nombre_usuario y password
+      { headers }
+    );
   }
+
   setToken(token: string) {
     const expirationDays = 7; // Establece el tiempo de expiración de la cookie
     this.cookieService.set('token', token, expirationDays, '/');
